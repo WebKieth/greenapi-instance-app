@@ -87,6 +87,42 @@ src/
 
 ## Деплой
 
+### Docker Compose + Nginx Proxy Manager
+
+Образ собирает приложение на Node.js 22 и отдаёт статику через nginx.
+Для запуска необходимы Docker с Compose и работающий Nginx Proxy Manager.
+Контейнер приложения и прокси должны находиться в общей Docker-сети.
+Порты приложения на хост не публикуются.
+
+Укажите имя существующей сети Nginx Proxy Manager в файле `.env`
+рядом с `docker-compose.yml` (замените `proxy_network` на имя вашей сети):
+
+```dotenv
+NPM_NETWORK=proxy_network
+```
+
+Соберите и запустите приложение:
+
+```bash
+docker compose up -d --build
+```
+
+В Nginx Proxy Manager создайте **Proxy Host**:
+
+- **Domain Names**: ваш поддомен (DNS должен указывать на сервер).
+- **Scheme**: `http`.
+- **Forward Hostname / IP**: `max-chat`.
+- **Forward Port**: `80`.
+- **SSL**: запросите сертификат Let's Encrypt и включите **Force SSL**.
+
+Запросы к GREEN-API выполняются из браузера напрямую; отдельная настройка
+WebSocket или API-прокси не требуется. Учётные данные вводятся в интерфейсе.
+
+После обновления кода повторите `docker compose up -d --build`.
+Проверить состояние: `docker compose ps`; логи: `docker compose logs -f max-chat`.
+
+### Другие варианты
+
 Сборка — статический SPA-бандл (`dist/`), подходит для любого статического хостинга:
 
 - **GitHub Pages**: `npm run build` и выложить содержимое `dist/` в ветку `gh-pages`

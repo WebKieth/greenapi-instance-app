@@ -120,7 +120,7 @@ export default function App() {
           senderData.chatId,
           {
             phone: senderData.senderPhoneNumber ? String(senderData.senderPhoneNumber) : '',
-            name: senderData.senderName || senderData.senderContactName || '',
+            name: senderData.chatName || senderData.senderName || senderData.senderContactName || '',
           },
           {
             id: String(body.idMessage ?? `in-${Date.now()}`),

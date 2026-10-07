@@ -1,0 +1,18 @@
+services:
+  max-chat:
+    build: .
+    restart: unless-stopped
+    expose:
+      - "80"
+    networks:
+      - proxy
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+networks:
+  proxy:
+    external: true
+    name: ${NPM_NETWORK:-myspace_default}
