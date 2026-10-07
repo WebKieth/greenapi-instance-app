@@ -1,0 +1,23 @@
+.app {
+  height: 100%;
+  display: flex;
+}
+
+@media (max-width: 720px) {
+  .app > aside {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .app > main {
+    display: none;
+  }
+
+  .app[data-chat-open='true'] > aside {
+    display: none;
+  }
+
+  .app[data-chat-open='true'] > main {
+    display: flex;
+  }
+}

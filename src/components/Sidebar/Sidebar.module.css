@@ -1,0 +1,222 @@
+.sidebar {
+  width: 400px;
+  min-width: 400px;
+  background: var(--bg-panel);
+  border-right: 1px solid var(--border);
+  display: flex;
+}
+
+.rail {
+  width: 68px;
+  min-width: 68px;
+  background: var(--bg-rail);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 14px 0;
+}
+
+.railButton {
+  width: 48px;
+  height: 48px;
+  border: none;
+  border-radius: 14px;
+  background: none;
+  color: var(--text-dim);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.activeRailButton {
+  color: var(--accent);
+  background: var(--bg-hover);
+}
+
+.logout {
+  margin-top: auto;
+}
+
+.logout:hover {
+  color: var(--text);
+  background: var(--bg-hover);
+}
+
+.content {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 16px 8px;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.plusButton {
+  width: 38px;
+  height: 38px;
+  border: none;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+}
+
+.plusButton:hover {
+  background: var(--accent-hover);
+}
+
+.newChat {
+  display: flex;
+  gap: 8px;
+  padding: 8px 16px;
+}
+
+.newChat input {
+  flex: 1;
+  min-width: 0;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 11px 14px;
+  color: var(--text);
+  font-size: 15px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.newChat input:focus {
+  border-color: var(--accent);
+}
+
+.createButton {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s;
+}
+
+.createButton:hover:not(:disabled) {
+  background: var(--accent-hover);
+}
+
+.createButton:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+.error {
+  margin: 0;
+  padding: 0 16px;
+  color: var(--error);
+  font-size: 13px;
+}
+
+.list {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0 8px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.empty {
+  color: var(--text-dim);
+  text-align: center;
+  padding: 24px 12px;
+  font-size: 14px;
+}
+
+.item {
+  width: 100%;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 10px;
+  background: none;
+  border: none;
+  border-radius: 14px;
+  color: var(--text);
+  cursor: pointer;
+  text-align: left;
+}
+
+.item:hover {
+  background: var(--bg-hover);
+}
+
+.activeItem,
+.activeItem:hover {
+  background: var(--bg-active);
+}
+
+.itemBody {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.itemTitle {
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.preview {
+  font-size: 13px;
+  color: var(--text-dim);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border-top: 1px solid var(--border);
+}
+
+.statusDot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--text-dim);
+}
+
+.ok {
+  background: var(--ok);
+}
+
+.warn {
+  background: #f5a623;
+}
+
+.footerText {
+  font-size: 13px;
+  color: var(--text-dim);
+}

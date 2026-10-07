@@ -1,16 +1,9 @@
 import { useRef, useState, type FormEvent } from 'react';
-import { formatPhone } from '../utils/phone';
-import { errorMessage } from '../utils/errors';
-import type { Chat } from '../types';
-
-function Avatar({ title }: { title: string }) {
-  const letter = title.trim().charAt(0).toUpperCase() || '?';
-  return (
-    <div className="avatar" aria-hidden="true">
-      {letter}
-    </div>
-  );
-}
+import { formatPhone } from '../../utils/phone';
+import { errorMessage } from '../../utils/errors';
+import type { Chat } from '../../types';
+import Avatar from '../Avatar/Avatar';
+import styles from './Sidebar.module.css';
 
 function chatTitle(chat: Chat): string {
   return chat.name || (chat.phone ? formatPhone(chat.phone) : `Чат ${chat.chatId}`);
@@ -61,15 +54,15 @@ export default function Sidebar({
   };
 
   return (
-    <aside className="sidebar">
-      <nav className="rail" aria-label="Навигация">
-        <button className="rail-button rail-button--active" title="Чаты" aria-label="Чаты">
+    <aside className={styles.sidebar}>
+      <nav className={styles.rail} aria-label="Навигация">
+        <button className={`${styles.railButton} ${styles.activeRailButton}`} title="Чаты" aria-label="Чаты">
           <svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor">
             <path d="M12 2C6.48 2 2 5.94 2 10.8c0 2.64 1.35 5.02 3.5 6.61L5 22l4.9-2.45c.67.1 1.37.15 2.1.15 5.52 0 10-3.94 10-8.9C22 5.94 17.52 2 12 2z" />
           </svg>
         </button>
         <button
-          className="rail-button rail-button--bottom"
+          className={`${styles.railButton} ${styles.logout}`}
           onClick={onLogout}
           title="Выйти из инстанса"
           aria-label="Выйти"
@@ -82,11 +75,11 @@ export default function Sidebar({
         </button>
       </nav>
 
-      <div className="sidebar-content">
-        <header className="sidebar-header">
-          <span className="sidebar-title">Чаты</span>
+      <div className={styles.content}>
+        <header className={styles.header}>
+          <span className={styles.title}>Чаты</span>
           <button
-            className="plus-button"
+            className={styles.plusButton}
             onClick={() => phoneInputRef.current?.focus()}
             title="Новый чат"
             aria-label="Новый чат"
@@ -98,7 +91,7 @@ export default function Sidebar({
           </button>
         </header>
 
-        <form className="new-chat" onSubmit={handleCreate}>
+        <form className={styles.newChat} onSubmit={handleCreate}>
           <input
             ref={phoneInputRef}
             type="tel"
@@ -108,44 +101,44 @@ export default function Sidebar({
             aria-label="Номер телефона получателя"
           />
           {phone.trim() && (
-            <button className="button-primary button-compact" type="submit" disabled={creating}>
+            <button className={styles.createButton} type="submit" disabled={creating}>
               {creating ? '...' : 'Создать'}
             </button>
           )}
         </form>
         {error && (
-          <p className="sidebar-error" role="alert">
+          <p className={styles.error} role="alert">
             {error}
           </p>
         )}
 
-        <ul className="chat-list">
+        <ul className={styles.list}>
           {chats.length === 0 && (
-            <li className="chat-list-empty">Введите номер телефона, чтобы создать чат</li>
+            <li className={styles.empty}>Введите номер телефона, чтобы создать чат</li>
           )}
           {chats.map((chat) => (
             <li key={chat.chatId}>
               <button
                 type="button"
-                className={`chat-item${chat.chatId === activeChatId ? ' chat-item--active' : ''}`}
+                className={`${styles.item} ${chat.chatId === activeChatId ? styles.activeItem : ''}`}
                 onClick={() => onSelectChat(chat.chatId)}
               >
                 <Avatar title={chatTitle(chat)} />
-                <span className="chat-item-body">
-                  <span className="chat-item-title">{chatTitle(chat)}</span>
-                  <span className="chat-item-preview">{lastMessage(chat)}</span>
+                <span className={styles.itemBody}>
+                  <span className={styles.itemTitle}>{chatTitle(chat)}</span>
+                  <span className={styles.preview}>{lastMessage(chat)}</span>
                 </span>
               </button>
             </li>
           ))}
         </ul>
 
-        <footer className="sidebar-footer">
+        <footer className={styles.footer}>
           <span
-            className={`status-dot ${instanceState === 'authorized' ? 'status-dot--ok' : 'status-dot--warn'}`}
+            className={`${styles.statusDot} ${instanceState === 'authorized' ? styles.ok : styles.warn}`}
             aria-hidden="true"
           />
-          <span className="sidebar-footer-text">
+          <span className={styles.footerText}>
             Инстанс {idInstance} — {instanceState || 'проверка...'}
           </span>
         </footer>

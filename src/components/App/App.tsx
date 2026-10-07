@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import * as api from './api/greenApi';
-import LoginScreen from './components/LoginScreen';
-import Sidebar from './components/Sidebar';
-import ChatWindow from './components/ChatWindow';
-import { normalizePhone } from './utils/phone';
-import { errorMessage } from './utils/errors';
-import type { Chat, Credentials, Message, MessageData, MessageStatus, WebhookBody } from './types';
+import * as api from '../../api/greenApi';
+import LoginScreen from '../LoginScreen/LoginScreen';
+import Sidebar from '../Sidebar/Sidebar';
+import ChatWindow from '../ChatWindow/ChatWindow';
+import { normalizePhone } from '../../utils/phone';
+import { errorMessage } from '../../utils/errors';
+import type { Chat, Credentials, Message, MessageData, MessageStatus, WebhookBody } from '../../types';
+import styles from './App.module.css';
 
 const CREDS_KEY = 'maxchat:creds';
 const chatsKey = (idInstance: string) => `maxchat:chats:${idInstance}`;
@@ -258,7 +259,7 @@ export default function App() {
   const activeChat = chats.find((c) => c.chatId === activeChatId) ?? null;
 
   return (
-    <div className="app">
+    <div className={styles.app} data-chat-open={Boolean(activeChat)}>
       <Sidebar
         chats={chats}
         activeChatId={activeChatId}

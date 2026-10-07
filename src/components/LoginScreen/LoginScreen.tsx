@@ -1,7 +1,8 @@
 import { useState, type FormEvent } from 'react';
-import { getStateInstance } from '../api/greenApi';
-import { errorMessage } from '../utils/errors';
-import type { Credentials } from '../types';
+import { getStateInstance } from '../../api/greenApi';
+import { errorMessage } from '../../utils/errors';
+import type { Credentials } from '../../types';
+import styles from './LoginScreen.module.css';
 
 const DEFAULT_API_URL = 'https://api.green-api.com';
 
@@ -56,9 +57,9 @@ export default function LoginScreen({ onLogin }: LoginScreenProps) {
   };
 
   return (
-    <div className="login-page">
-      <form className="login-card" onSubmit={handleSubmit}>
-        <div className="login-logo" aria-hidden="true">
+    <div className={styles.page}>
+      <form className={styles.card} onSubmit={handleSubmit}>
+        <div className={styles.logo} aria-hidden="true">
           <svg viewBox="0 0 48 48" width="44" height="44">
             <circle cx="24" cy="24" r="22" fill="url(#loginGradient)" />
             <circle cx="24" cy="24" r="12" fill="none" stroke="#fff" strokeWidth="4" />
@@ -70,11 +71,11 @@ export default function LoginScreen({ onLogin }: LoginScreenProps) {
             </defs>
           </svg>
         </div>
-        <h1 className="login-title">MAX чат</h1>
-        <p className="login-subtitle">Войдите с учетными данными инстанса GREEN-API</p>
+        <h1 className={styles.title}>MAX чат</h1>
+        <p className={styles.subtitle}>Войдите с учетными данными инстанса GREEN-API</p>
 
-        <label className="field">
-          <span className="field-label">idInstance</span>
+        <label className={styles.field}>
+          <span className={styles.label}>idInstance</span>
           <input
             type="text"
             inputMode="numeric"
@@ -86,8 +87,8 @@ export default function LoginScreen({ onLogin }: LoginScreenProps) {
           />
         </label>
 
-        <label className="field">
-          <span className="field-label">apiTokenInstance</span>
+        <label className={styles.field}>
+          <span className={styles.label}>apiTokenInstance</span>
           <input
             type="password"
             placeholder="••••••••••••••••"
@@ -98,8 +99,8 @@ export default function LoginScreen({ onLogin }: LoginScreenProps) {
           />
         </label>
 
-        <label className="field">
-          <span className="field-label">apiUrl (из личного кабинета)</span>
+        <label className={styles.field}>
+          <span className={styles.label}>apiUrl (из личного кабинета)</span>
           <input
             type="text"
             placeholder={DEFAULT_API_URL}
@@ -110,16 +111,16 @@ export default function LoginScreen({ onLogin }: LoginScreenProps) {
         </label>
 
         {error && (
-          <p className="login-error" role="alert">
+          <p className={styles.error} role="alert">
             {error}
           </p>
         )}
 
-        <button className="button-primary" type="submit" disabled={loading}>
+        <button className={styles.submit} type="submit" disabled={loading}>
           {loading ? 'Подключение...' : 'Войти'}
         </button>
 
-        <p className="login-hint">
+        <p className={styles.hint}>
           Данные берутся в{' '}
           <a href="https://console.green-api.com" target="_blank" rel="noreferrer">
             личном кабинете GREEN-API

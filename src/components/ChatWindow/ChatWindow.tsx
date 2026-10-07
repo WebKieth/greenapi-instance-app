@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react';
-import { formatPhone } from '../utils/phone';
-import { errorMessage } from '../utils/errors';
-import type { Chat, MessageStatus } from '../types';
+import { formatPhone } from '../../utils/phone';
+import { errorMessage } from '../../utils/errors';
+import type { Chat, MessageStatus } from '../../types';
+import Avatar from '../Avatar/Avatar';
+import styles from './ChatWindow.module.css';
 
 function formatTime(timestamp: number): string {
   return new Date(timestamp).toLocaleTimeString('ru-RU', {
@@ -14,7 +16,7 @@ function StatusIcon({ status }: { status?: MessageStatus }) {
   if (!status) return null;
   if (status === 'sending') {
     return (
-      <svg className="status-icon" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+      <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
         <circle cx="12" cy="12" r="9" />
         <polyline points="12 7 12 12 15 14" />
       </svg>
@@ -22,7 +24,7 @@ function StatusIcon({ status }: { status?: MessageStatus }) {
   }
   if (status === 'failed') {
     return (
-      <svg className="status-icon status-icon--failed" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+      <svg className={styles.failed} viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
         <circle cx="12" cy="12" r="9" />
         <line x1="12" y1="8" x2="12" y2="13" />
         <line x1="12" y1="16.5" x2="12.01" y2="16.5" />
@@ -32,7 +34,7 @@ function StatusIcon({ status }: { status?: MessageStatus }) {
   // sent: одна галочка, delivered/read: две (read — выделенная)
   return (
     <svg
-      className={`status-icon${status === 'read' ? ' status-icon--read' : ''}`}
+      className={status === 'read' ? styles.read : undefined}
       viewBox="0 0 24 24"
       width="16"
       height="16"
@@ -82,7 +84,7 @@ export default function ChatWindow({ chat, onSend }: ChatWindowProps) {
 
   if (!chat) {
     return (
-      <main className="chat-window chat-window--empty">
+      <main className={`${styles.window} ${styles.empty}`}>
         <p>Выберите чат или создайте новый по номеру телефона</p>
       </main>
     );
@@ -91,25 +93,23 @@ export default function ChatWindow({ chat, onSend }: ChatWindowProps) {
   const title = chat.name || (chat.phone ? formatPhone(chat.phone) : `Чат ${chat.chatId}`);
 
   return (
-    <main className="chat-window">
-      <header className="chat-header">
-        <div className="avatar" aria-hidden="true">
-          {title.charAt(0).toUpperCase()}
-        </div>
-        <div className="chat-header-info">
-          <span className="chat-header-title">{title}</span>
-          <span className="chat-header-sub">MAX</span>
+    <main className={styles.window}>
+      <header className={styles.header}>
+        <Avatar title={title} />
+        <div className={styles.info}>
+          <span className={styles.title}>{title}</span>
+          <span className={styles.subtitle}>MAX</span>
         </div>
       </header>
 
-      <div className="messages">
+      <div className={styles.messages}>
         {chat.messages.length === 0 && (
-          <p className="messages-empty">Напишите первое сообщение — оно уйдет в MAX получателю</p>
+          <p className={styles.emptyMessages}>Напишите первое сообщение — оно уйдет в MAX получателю</p>
         )}
         {chat.messages.map((msg) => (
-          <div key={msg.id} className={`bubble ${msg.outgoing ? 'bubble--out' : 'bubble--in'}`}>
-            <span className="bubble-text">{msg.text}</span>
-            <span className="bubble-meta">
+          <div key={msg.id} className={`${styles.bubble} ${msg.outgoing ? styles.outgoing : styles.incoming}`}>
+            <span>{msg.text}</span>
+            <span className={styles.meta}>
               <time>{formatTime(msg.timestamp)}</time>
               {msg.outgoing && <StatusIcon status={msg.status} />}
             </span>
@@ -118,13 +118,13 @@ export default function ChatWindow({ chat, onSend }: ChatWindowProps) {
         <div ref={bottomRef} />
       </div>
 
-      <form className="composer" onSubmit={handleSend}>
+      <form className={styles.composer} onSubmit={handleSend}>
         {sendError && (
-          <p className="composer-error" role="alert">
+          <p className={styles.error} role="alert">
             {sendError}
           </p>
         )}
-        <div className="composer-row">
+        <div className={styles.row}>
           <input
             type="text"
             placeholder="Сообщение"
@@ -133,7 +133,7 @@ export default function ChatWindow({ chat, onSend }: ChatWindowProps) {
             aria-label="Текст сообщения"
           />
           <button
-            className="send-button"
+            className={styles.sendButton}
             type="submit"
             disabled={!text.trim() || sending}
             aria-label="Отправить сообщение"
